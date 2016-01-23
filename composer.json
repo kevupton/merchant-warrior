@@ -1,0 +1,26 @@
+{
+    "name": "kevupton/merchant-warrior",
+    "description": "Merchant Warrior Integration System for Laravel",
+    "keywords": ["laravel", "merchant-warrior"],
+    "type": "Extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kevin Upton",
+            "email": "uptonkg@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "kevupton/merchant-warrior": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kevupton\\MerchantWarrior\\": "src/Kevupton/MerchantWarrior/"
+        },
+        "files": [
+            "src/Kevupton/MerchantWarrior/Helpers/helpers.php"
+        ]
+    },
+    "minimum-stability": "stable"
+}

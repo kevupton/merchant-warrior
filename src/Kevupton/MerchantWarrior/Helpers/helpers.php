@@ -13,6 +13,28 @@ if (!function_exists('mw_prefix')) {
     }
 }
 
+if (!function_exists('mw_uuid')) {
+    /**
+     * Returns the Merchant UUID for Merchant Warrior account
+     *
+     * @return string
+     */
+    function mw_uuid() {
+        return mw_conf('merchant_uuid');
+    }
+}
+
+if (!function_exists('mw_api_key')) {
+    /**
+     * Returns the API Key for the Merchant Warrior account
+     * @return mixed
+     */
+    function mw_api_key() {
+        return mw_conf('api_key');
+    }
+}
+
+
 
 if (!function_exists('mw_conf')) {
     /**
@@ -27,3 +49,4 @@ if (!function_exists('mw_conf')) {
         return Config::get(MERCHANT_WARRIOR_CONFIG . '.' . $prop, $default);
     }
 }
+
