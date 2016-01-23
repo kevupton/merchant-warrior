@@ -12,9 +12,9 @@ class MerchantWarriorServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $this->publishes([__DIR__.'/../../../../config/merchant_warrior.php' => config_path('core.php')]);
+        $this->publishes([__DIR__.'/../../../config/config.php' => config_path(MERCHANT_WARRIOR_CONFIG . '.php')]);
         $this->publishes([
-            __DIR__.'/../../../../database/migrations/' => database_path('migrations')
+            __DIR__.'/../../../database/migrations/' => database_path('migrations')
         ], 'migrations');
 //        $this->publishes([
 //            __DIR__.'/../../../../database/seeds/' => database_path('seeds')

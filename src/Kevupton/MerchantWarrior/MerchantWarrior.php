@@ -1,7 +1,8 @@
 <?php namespace Kevupton\MerchantWarrior;
 
 class MerchantWarrior {
-    const TESTING = true;
+
+    private $testing;
 
     private $testing_url = 'https://base.merchantwarrior.com/';
     private $live_url = 'https://api.merchantwarrior.com/';
@@ -9,19 +10,24 @@ class MerchantWarrior {
     private $post_uri = 'post';
 
 
+    public function __construct() {
+        $this->testing = mw_conf('testing');
+    }
+
     /**
      * @param array $data
+     * @return \SimpleXMLElement
      */
     public function processCard(array $data) {
-        $this->sendRequest('processCard', $data);
+        return $this->sendRequest('processCard', $data);
     }
 
     public function processAuth(array $data) {
-        $this->sendRequest('processAuth', $data);
+        return $this->sendRequest('processAuth', $data);
     }
 
     private function url($ext = '') {
-        return (self::TESTING? $this->testing_url: $this->live_url) . trim($ext, ' /');
+        return ($this->testing? $this->testing_url: $this->live_url) . trim($ext, ' /');
     }
 
     /**
@@ -49,19 +55,27 @@ class MerchantWarrior {
         $data = array_merge($data, $joiner);
 
         $ch = curl_init();
+        $post_data = http_build_query($data);
 
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
 
         $response = curl_exec ($ch);
+        var_dump($response);
 
+        if ($response === False) {
+            var_dump(curl_error($ch), curl_errno($ch));
+        }
         curl_close ($ch);
 
-        return new \SimpleXMLElement($response);
+        //return new \SimpleXMLElement($response);
     }
 
 }

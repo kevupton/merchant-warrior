@@ -11,4 +11,6 @@ return array(
     //API Key, your merchant warrior API Key found in your Direct API Merchant Warrior Account
     'api_key' => '',
 
+    //whether or not to use the testing service or live service with merchant warrior.
+    'testing' => true,
 );
