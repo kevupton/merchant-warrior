@@ -9,7 +9,7 @@ class BaseModel extends Ethereal {
      * @param array $attr
      */
     public function __construct($attr = array()) {
-        $this->table = ref_prefix() . $this->table;
+        $this->table = mw_prefix() . $this->table;
         parent::__construct($attr);
     }
 }

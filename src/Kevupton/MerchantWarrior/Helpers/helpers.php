@@ -35,6 +35,16 @@ if (!function_exists('mw_api_key')) {
 }
 
 
+if (!function_exists('mw_api_passphrase')) {
+    /**
+     * Returns the API Passphrase for the Merchant Warrior account
+     * @return mixed
+     */
+    function mw_api_passphrase() {
+        return mw_conf('api_passphrase');
+    }
+}
+
 
 if (!function_exists('mw_conf')) {
     /**
