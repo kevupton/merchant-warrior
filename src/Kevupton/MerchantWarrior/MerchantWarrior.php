@@ -1,7 +1,9 @@
 <?php namespace Kevupton\MerchantWarrior;
 
+use Kevupton\MerchantWarrior\Exceptions\MerchantWarriorException;
 use Kevupton\MerchantWarrior\Models\Card;
 use Kevupton\MerchantWarrior\Models\Log;
+use Kevupton\MerchantWarrior\Utils\Response;
 
 class MerchantWarrior {
 
@@ -12,29 +14,60 @@ class MerchantWarrior {
 
     private $post_uri = 'post';
 
-    private $save_data = null;
-
     public function __construct() {
         $this->testing = mw_conf('testing');
     }
 
+    /**
+     * The addCard method is the method used to add a new card to MWE.
+     *
+     * @param array $data
+        cardName
+        cardNumber
+        cardExpiryMonth
+        cardExpiryYear
+        cardGlobal*
+        cardEmail*
+        cardContact*
+     * @return Response
+     * @throws MerchantWarriorException
+     */
     public function addCard(array $data) {
-        $xml = $this->sendRequest('addCard', $data);
-        if ($xml->responseCode == 0) {
-            if ($this->saveData()) {
-                return $this->saveCard($xml);
-            }
-        }
-        return $xml;
+        return $this->sendRequest('addCard', $data);
     }
 
-    private function saveData() {
-        return (is_null($this->save_data)? $this->save_data = mw_conf('save_data'): $this->save_data);
+    /**
+     * The removeCard method is the method used to remove a card from the MWV once it’s been added.
+     *
+     * @param array $data
+        cardID
+        cardKey?
+        cardGlobal*
+        cardEmail*
+        code*
+     * @return Response
+     * @throws MerchantWarriorException
+     */
+    public function removeCard(array $data) {
+        return $this->sendRequest('removeCard', $data);
+    }
+
+    /**
+     * The removeCard method is the method used to remove a card from the MWV once it’s been added.
+     *
+     * @param array $data
+        cardID
+        cardKey?
+     * @return Response
+     * @throws MerchantWarriorException
+     */
+    public function cardInfo(array $data) {
+        return $this->sendRequest('cardInfo', $data);
     }
 
     /**
      * @param array $data
-     * @return \SimpleXMLElement
+     * @return Response
      */
     public function processCard(array $data) {
         $data['hash'] = $this->hashTransactionType($data['transactionAmount'], $data['transactionCurrency']);
@@ -61,24 +94,6 @@ class MerchantWarrior {
         return md5(strtolower(md5(mw_api_passphrase()) . mw_uuid() . $custom1 . $custom2 . $custom3));
     }
 
-    public function saveCard(\SimpleXMLElement $xml) {
-
-        $card = Card::create([
-            'cardID' => (string) $xml->cardID,
-            'cardKey' => (string) $xml->cardKey,
-            'ivrCardID' => (string) $xml->ivrCardID
-        ]);
-
-        //log the request
-        $this->log($xml);
-
-        return $card;
-    }
-
-    private function log(\SimpleXMLElement $xml) {
-        Log::create(['content' => $xml->asXML()]);
-    }
-
 
     /**
      * Sends the post request to merchant warrior and returns the response in xml.
@@ -86,7 +101,9 @@ class MerchantWarrior {
      * @param $method string the identifying method
      * @param array $data the data to be posted
      * @param bool $token whether or not this is a token request
-     * @return \SimpleXMLElement the response of the webpage
+     * @return Response the response of the webpage
+     *
+     * @throws MerchantWarriorException if the request fails
      */
     private function sendRequest($method, array $data, $token = true) {
 
@@ -119,11 +136,12 @@ class MerchantWarrior {
         $response = curl_exec ($ch);
 
         if ($response === False) {
-            var_dump(curl_error($ch), curl_errno($ch));
+            throw new MerchantWarriorException(curl_error($ch), curl_errno($ch));
         }
+
         curl_close($ch);
 
-        return new \SimpleXMLElement($response);
+        return new Response($method, $response);
     }
 
 }

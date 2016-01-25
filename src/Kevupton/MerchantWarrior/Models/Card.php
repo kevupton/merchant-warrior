@@ -4,6 +4,7 @@ class Card extends BaseModel {
     // table name
     protected $table = 'cards';
     public $timestamps = true;
+    protected $primaryKey = 'cardID';
 
     // validation rules
     public static $rules = array(
