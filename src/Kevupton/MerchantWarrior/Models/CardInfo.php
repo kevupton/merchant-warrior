@@ -5,6 +5,7 @@ class CardInfo extends BaseModel {
     protected $table = 'card_info';
     public $timestamps = true;
     protected $primaryKey = 'cardID';
+    public $incrementing = false;
 
     // validation rules
     public static $rules = array(

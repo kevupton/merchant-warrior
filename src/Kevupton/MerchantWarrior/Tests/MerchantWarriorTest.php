@@ -3,13 +3,14 @@
 use Illuminate\Foundation\Testing\TestCase;
 use Kevupton\MerchantWarrior\Exceptions\CardException;
 use Kevupton\MerchantWarrior\MerchantWarrior;
+use Kevupton\MerchantWarrior\Repositories\CardInfoRepository;
 use Kevupton\MerchantWarrior\Repositories\CardRepository;
 
 trait MerchantWarriorTest
 {
     /** @var MerchantWarrior */
     private $mw = null;
-    private static $temp_id;
+    protected static $temp_id;
 
     /**
      * A basic functional test example.
@@ -27,9 +28,9 @@ trait MerchantWarriorTest
 
         $response = $this->mw()->addCard($card);
 
-        $this->assertTrue($response->isSuccess());
+        $this->assertTrue($response->success());
 
-        self::$temp_id = $response->getResult()->cardID;
+        self::$temp_id = $response->result()->cardID;
 
     }
 
@@ -50,7 +51,7 @@ trait MerchantWarriorTest
 
         $response = $this->mw()->addCard($card);
 
-        $this->assertFalse($response->isSuccess());
+        $this->assertFalse($response->success());
 
     }
 
@@ -59,13 +60,34 @@ trait MerchantWarriorTest
     public function testCardInfo() {
         $response = $this->mw()->cardInfo(['cardID' => self::$temp_id]);
 
-        $this->assertTrue($response->isSuccess());
-        var_dump($response->getMessage());
-        var_dump($response->getResult()->getAttributes());
+        $this->assertTrue($response->success());
+
+        $repo = new CardInfoRepository();
+
+        $this->assertNotNull($repo->retrieveByID($response->result()->cardID));
+
     }
 
+    public function testChangeExpiry() {
+        $repo = new CardInfoRepository();
 
+        $month = '01';
+        $year = '20';
 
+        $card_info = $repo->retrieveByID(self::$temp_id);
+        $response = $this->mw()->changeExpiry([
+            'cardID' => $card_info->cardID,
+            'cardExpiryMonth' => $month,
+            'cardExpiryYear' => $year
+        ]);
+
+        $this->assertTrue($response->success());
+
+        $card_info = $repo->retrieveByID(self::$temp_id);
+        $this->assertEquals($card_info->cardExpiryMonth, $month);
+        $this->assertEquals($card_info->cardExpiryYear, $year);
+
+    }
 
 
     public function testRemoveBothInvalidCard() {
@@ -98,13 +120,17 @@ trait MerchantWarriorTest
 
         try {
             $response = $this->mw()->removeCard($data);
-            $this->assertFalse(true, 'no error was thrown');
-
-            $this->assertTrue($response->isSuccess());
-
-            $this->assertNull($repo->retrieveByID(self::$temp_id));
         } catch (CardException $e) {
 
+        }
+
+        $this->assertTrue($response->success());
+
+        try {
+            $repo->retrieveByID(self::$temp_id);
+            $this->assertFalse(true, 'exception was thrown');
+        } catch(CardException $e) {
+            $this->assertTrue(true, 'exception wasnt thrown');
         }
     }
 

@@ -21,4 +21,16 @@ class CardRepository extends Repository {
         return Card::class;
     }
 
+    /**
+     * Deletes both from card info and from cards
+     *
+     * @param $cardID string
+     */
+    public function deleteCard($cardID)
+    {
+        $repo = new CardInfoRepository();
+        $repo->removeByID($cardID);
+        $this->removeByID($cardID);
+    }
+
 }

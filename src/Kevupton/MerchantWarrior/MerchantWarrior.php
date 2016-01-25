@@ -66,6 +66,25 @@ class MerchantWarrior {
     }
 
     /**
+     * The changeExpiry method is the method used to change a card’s expiry once it’s been added into
+    the MWV.
+
+     *
+     * @param array $data
+        merchantUUID
+        apiKey
+        cardID
+        cardKey?
+        cardExpiryMonth
+        cardExpiryYear
+     * @return Response
+     * @throws MerchantWarriorException
+     */
+    public function changeExpiry(array $data) {
+        return $this->sendRequest('changeExpiry', $data);
+    }
+
+    /**
      * @param array $data
      * @return Response
      */
@@ -141,7 +160,7 @@ class MerchantWarrior {
 
         curl_close($ch);
 
-        return new Response($method, $response);
+        return new Response($method, $response, $data);
     }
 
 }
