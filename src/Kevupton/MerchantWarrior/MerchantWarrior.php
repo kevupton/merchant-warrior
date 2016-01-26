@@ -85,12 +85,43 @@ class MerchantWarrior {
     }
 
     /**
+     * The checkCardChange method is the method used to detect if there have been any changes to a
+    customer’s details in the Global Vault and can act as an indicator as to whether the checkEmail
+    method should be called.
+     *
+     * @param array $data
+        cardEmail
+        cardID
+     * @return Response
+     * @throws MerchantWarriorException
+     */
+    public function checkCardChange(array $data) {
+        return $this->sendRequest('checkCardChange', $data);
+    }
+
+    public function checkEmail(array $data) {
+        return $this->sendRequest('checkEmail', $data);
+    }
+
+    public function checkContact(array $data) {
+        return $this->sendRequest('checkContact', $data);
+    }
+
+    public function retrieveCard(array $data) {
+        return $this->sendRequest('retrieveCard', $data);
+    }
+
+    public function updateCard(array $data) {
+        return $this->sendRequest('updateCard', $data);
+    }
+
+    /**
      * @param array $data
      * @return Response
      */
     public function processCard(array $data) {
         $data['hash'] = $this->hashTransactionType($data['transactionAmount'], $data['transactionCurrency']);
-        return $this->sendRequest('processCard', $data);
+        return $this->sendRequest('processCard', $data, false);
     }
 
     public function processAuth(array $data) {
@@ -133,7 +164,7 @@ class MerchantWarrior {
         ];
         if (!$token) {
             $joiner['method'] = $method;
-            $url = $this->url($this->post_uri);
+            $url = $this->url($this->post_uri . '/' . $method);
         } else {
             $url = $this->url('token/' . $method);
         }

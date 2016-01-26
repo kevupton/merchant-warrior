@@ -89,6 +89,41 @@ trait MerchantWarriorTest
 
     }
 
+    public function testMakePayment() {
+        $data = [
+            'transactionAmount' => '10.00',
+            'transactionCurrency' => 'AUD',
+            'transactionProduct' => 'Test Product',
+            'customerName' => 'Foo',
+            'customerAddress' => '123 Fake St',
+            'customerCountry' => 'AU',
+            'customerState' => 'Western Australia',
+            'customerCity' => 'Perth',
+            'customerPostCode' => '1111',
+            'cardID' => self::$temp_id,
+            'paymentCardCSC' => 123
+        ];
+
+        $data = [
+            'transactionAmount' => '10.00',
+            'transactionCurrency' => 'AUD',
+            'transactionProduct' => 'Test Product',
+            'customerName' => 'Foo',
+            'customerAddress' => '123 Fake St',
+            'customerCountry' => 'AU',
+            'customerState' => 'Queensland',
+            'customerCity' => 'Brisbane',
+            'customerPostCode' => '4000',
+            'paymentCardNumber' => '4005550000000001',
+            'paymentCardExpiry' => '0517',
+            'paymentCardName' => 'Mr Example Person',
+            'paymentCardCSC' => 123
+        ];
+
+        $response = $this->mw()->processCard($data);
+        var_dump($response->content()->asXML());
+    }
+
 
     public function testRemoveBothInvalidCard() {
 
