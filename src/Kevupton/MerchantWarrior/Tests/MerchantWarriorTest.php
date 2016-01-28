@@ -12,6 +12,20 @@ trait MerchantWarriorTest
     private $mw = null;
     protected static $temp_id;
 
+    private static $data = array(
+        'transactionAmount' => '10.00',
+        'transactionCurrency' => 'AUD',
+        'transactionProduct' => 'Test Product',
+        'customerName' => 'Foo',
+        'customerAddress' => '123 Fake St',
+        'customerCountry' => 'AU',
+        'customerState' => 'Western Australia',
+        'customerCity' => 'Perth',
+        'customerPostCode' => '1111',
+        'cardID' => '',
+        //'paymentCardCSC' => 123
+    );
+
     /**
      * A basic functional test example.
      *
@@ -31,7 +45,7 @@ trait MerchantWarriorTest
         $this->assertTrue($response->success());
 
         self::$temp_id = $response->result()->cardID;
-
+        self::$data['cardID'] = self::$temp_id;
     }
 
     /**
@@ -68,6 +82,41 @@ trait MerchantWarriorTest
 
     }
 
+    public function testMakePayment() {
+        self::$data['custom1'] = json_encode(['user_id' => 1]);
+        $response = $this->mw()->processCard(self::$data);
+
+        $this->assertTrue($response->success());
+    }
+
+    public function testProcessCardWithoutToken() {
+        $data = [
+            'transactionAmount' => '10.00',
+            'transactionCurrency' => 'AUD',
+            'transactionProduct' => 'Test Product',
+            'customerName' => 'Foo',
+            'customerAddress' => '123 Fake St',
+            'customerCountry' => 'AU',
+            'customerState' => 'Queensland',
+            'customerCity' => 'Brisbane',
+            'customerPostCode' => '4000',
+            'paymentCardNumber' => '4005550000000001',
+            'paymentCardExpiry' => '0517',
+            'paymentCardName' => 'Mr Example Person',
+            'paymentCardCSC' => 123
+        ];
+
+        $response = $this->mw()->processCard($data, false);
+
+        $this->assertTrue($response->success());
+    }
+
+
+
+    //Run after no  more need for card ---------------------------------
+    //----------------------------------------------------------
+    //----------------------------------------------------------
+
     public function testChangeExpiry() {
         $repo = new CardInfoRepository();
 
@@ -88,42 +137,6 @@ trait MerchantWarriorTest
         $this->assertEquals($card_info->cardExpiryYear, $year);
 
     }
-
-    public function testMakePayment() {
-        $data = [
-            'transactionAmount' => '10.00',
-            'transactionCurrency' => 'AUD',
-            'transactionProduct' => 'Test Product',
-            'customerName' => 'Foo',
-            'customerAddress' => '123 Fake St',
-            'customerCountry' => 'AU',
-            'customerState' => 'Western Australia',
-            'customerCity' => 'Perth',
-            'customerPostCode' => '1111',
-            'cardID' => self::$temp_id,
-            'paymentCardCSC' => 123
-        ];
-
-        $data = [
-            'transactionAmount' => '10.00',
-            'transactionCurrency' => 'AUD',
-            'transactionProduct' => 'Test Product',
-            'customerName' => 'Foo',
-            'customerAddress' => '123 Fake St',
-            'customerCountry' => 'AU',
-            'customerState' => 'Queensland',
-            'customerCity' => 'Brisbane',
-            'customerPostCode' => '4000',
-            'paymentCardNumber' => '4005550000000001',
-            'paymentCardExpiry' => '0517',
-            'paymentCardName' => 'Mr Example Person',
-            'paymentCardCSC' => 123
-        ];
-
-        $response = $this->mw()->processCard($data);
-        var_dump($response->content()->asXML());
-    }
-
 
     public function testRemoveBothInvalidCard() {
 

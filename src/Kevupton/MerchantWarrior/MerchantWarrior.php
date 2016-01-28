@@ -116,16 +116,61 @@ class MerchantWarrior {
     }
 
     /**
+     * The processCard method is the method used to perform a purchase request.
+     *
      * @param array $data
+     * @param bool $use_token
      * @return Response
+     * @throws MerchantWarriorException
      */
-    public function processCard(array $data) {
+    public function processCard(array $data, $use_token = true) {
         $data['hash'] = $this->hashTransactionType($data['transactionAmount'], $data['transactionCurrency']);
-        return $this->sendRequest('processCard', $data, false);
+        return $this->sendRequest('processCard', $data, $use_token);
     }
 
-    public function processAuth(array $data) {
-        return $this->sendRequest('processAuth', $data);
+    /**
+     * The processAuth method is the method used to perform a pre-authorization request.
+     *
+     * @param array $data
+     * @param bool $use_token
+     * @return Response
+     * @throws MerchantWarriorException
+     */
+    public function processAuth(array $data, $use_token = true) {
+        return $this->sendRequest('processAuth', $data, $use_token);
+    }
+
+
+    public function processCapture(array $data) {
+        return $this->sendRequest('processCapture', $data, false);
+    }
+
+    public function processBatch(array $data) {
+        return $this->sendRequest('processBatch', $data, false);
+    }
+
+    public function retrieveBatch(array $data) {
+        return $this->sendRequest('retrieveBatch', $data, false);
+    }
+
+    public function refundCard(array $data) {
+        return $this->sendRequest('refundCard', $data, false);
+    }
+
+    public function queryCard(array $data) {
+        return $this->sendRequest('queryCard', $data, false);
+    }
+
+    public function processDDebit(array $data) {
+        return $this->sendRequest('processDDebit', $data, false);
+    }
+
+    public function processDCredit(array $data) {
+        return $this->sendRequest('processDCredit', $data, false);
+    }
+
+    public function queryDD(array $data) {
+        return $this->sendRequest('queryDD', $data, false);
     }
 
     private function url($ext = '') {

@@ -17,4 +17,10 @@ class Card extends BaseModel {
     protected $fillable = array(
         'cardID', 'cardKey', 'ivrCardID'
     );
+
+    // relationships
+    public static $relationsData = array(
+        'payments' => array(self::HAS_MANY, Payment::class, 'cardID'),
+        'info' => array(self::HAS_ONE, CardInfo::class, 'cardID'),
+    );
 }

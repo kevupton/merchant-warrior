@@ -28,8 +28,11 @@ class CardRepository extends Repository {
      */
     public function deleteCard($cardID)
     {
-        $repo = new CardInfoRepository();
-        $repo->removeByID($cardID);
+        $card_info_repo = new CardInfoRepository();
+        $payment_repo = new PaymentRepository();
+
+        $card_info_repo->removeByID($cardID);
+        $payment_repo->removeCardID($cardID);
         $this->removeByID($cardID);
     }
 

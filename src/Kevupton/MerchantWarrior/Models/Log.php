@@ -9,6 +9,7 @@ class Log extends BaseModel {
     public static $rules = array();
 
     protected $fillable = array(
-        'content'
+        'content',
+        'sent'
     );
 }

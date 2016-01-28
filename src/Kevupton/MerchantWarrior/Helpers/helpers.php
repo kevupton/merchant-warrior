@@ -60,3 +60,19 @@ if (!function_exists('mw_conf')) {
     }
 }
 
+
+if (!function_exists('mw_log')) {
+    /**
+     * Logs the request in the database
+     *
+     * @param string $content the xml data received
+     * @param array $sent the data sent
+     * @return Kevupton\MerchantWarrior\Models\Log
+     */
+    function mw_log($content, array $sent = null) {
+        return \Kevupton\MerchantWarrior\Models\Log::create([
+            'sent' => json_encode($sent),
+            'content' => $content
+        ]);
+    }
+}

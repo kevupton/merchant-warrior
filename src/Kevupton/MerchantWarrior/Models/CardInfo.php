@@ -22,4 +22,9 @@ class CardInfo extends BaseModel {
         'cardID', 'cardName', 'cardExpiryMonth', 'cardAdded',
         'cardExpiryYear', 'cardNumberFirst', 'cardNumberLast'
     );
+
+    // relationships
+    public static $relationsData = array(
+        'card' => array(self::BELONGS_TO, Card::class, 'cardID'),
+    );
 }
