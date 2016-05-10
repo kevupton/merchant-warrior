@@ -56,7 +56,7 @@ if (!function_exists('mw_conf')) {
      * @return mixed
      */
     function mw_conf($prop, $default = '') {
-        return Config::get(MERCHANT_WARRIOR_CONFIG . '.' . $prop, $default);
+        return config(MERCHANT_WARRIOR_CONFIG . '.' . $prop, $default);
     }
 }
 
