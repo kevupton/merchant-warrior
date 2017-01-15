@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class SetupMerchantTables {
+class SetupMerchantTables extends Migration {
     /**
      * Run the migrations.
      *

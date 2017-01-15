@@ -2,6 +2,7 @@
 .env.*.php
 .env.php
 .env
+.idea
 
 # =========================
 # Operating System Files
