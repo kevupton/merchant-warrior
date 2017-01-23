@@ -1,5 +1,7 @@
 <?php namespace Kevupton\MerchantWarrior\Utils;
 
+use Kevupton\MerchantWarrior\Models\Log;
+use Kevupton\MerchantWarrior\Repositories\CardInfoRepository;
 use Kevupton\MerchantWarrior\Repositories\CardRepository;
 use Kevupton\MerchantWarrior\Repositories\PaymentRepository;
 
@@ -16,12 +18,12 @@ class MWSaver {
 
         if ($response->success()) {
             if (mw_conf('save_data')) {
+                mw_log($response->content()->asXML(), $sent);
+
                 $callable = "_save" . ucfirst($method);
                 if (method_exists($this, $callable)) {
                     $this->$callable();
                 }
-
-                mw_log($response->content()->asXML(), $sent);
             }
         }
     }
