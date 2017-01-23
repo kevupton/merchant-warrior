@@ -1,7 +1,5 @@
 <?php namespace Kevupton\MerchantWarrior\Utils;
 
-use Kevupton\MerchantWarrior\Models\Log;
-use Kevupton\MerchantWarrior\Repositories\CardInfoRepository;
 use Kevupton\MerchantWarrior\Repositories\CardRepository;
 use Kevupton\MerchantWarrior\Repositories\PaymentRepository;
 

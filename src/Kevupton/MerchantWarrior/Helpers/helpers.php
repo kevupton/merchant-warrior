@@ -71,7 +71,7 @@ if (!function_exists('mw_log')) {
      */
     function mw_log($content, array $sent = null) {
         return \Kevupton\MerchantWarrior\Models\Log::create([
-            'sent' => json_encode($sent),
+            'sent' => json_encode(array_except($sent, \Kevupton\MerchantWarrior\Models\Log::DO_NOT_LOG)),
             'content' => $content
         ]);
     }

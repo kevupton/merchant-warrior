@@ -1,8 +1,6 @@
 <?php namespace Kevupton\MerchantWarrior;
 
 use Kevupton\MerchantWarrior\Exceptions\MerchantWarriorException;
-use Kevupton\MerchantWarrior\Models\Card;
-use Kevupton\MerchantWarrior\Models\Log;
 use Kevupton\MerchantWarrior\Utils\Response;
 
 class MerchantWarrior {

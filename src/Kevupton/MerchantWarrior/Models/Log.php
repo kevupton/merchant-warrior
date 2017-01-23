@@ -5,6 +5,17 @@ class Log extends BaseModel {
     protected $table = 'log';
     public $timestamps = true;
 
+    const DO_NOT_LOG = [
+        'cardNumber',
+        'cardName',
+        'cardExpiryMonth',
+        'cardExpiryYear',
+        'paymentCardNumber',
+        'paymentCardExpiry',
+        'paymentCardName',
+        'paymentCardCSC'
+    ];
+
     // validation rules
     public static $rules = array();
 

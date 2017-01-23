@@ -1,12 +1,6 @@
 <?php namespace Kevupton\MerchantWarrior\Utils;
 
-use Illuminate\Config\Repository;
 use Kevupton\Ethereal\Models\Ethereal;
-use Kevupton\MerchantWarrior\Models\Card;
-use Kevupton\MerchantWarrior\Models\Log;
-use Kevupton\MerchantWarrior\Repositories\CardInfoRepository;
-use Kevupton\MerchantWarrior\Repositories\CardRepository;
-use Kevupton\MerchantWarrior\Repositories\PaymentRepository;
 
 class Response {
 
