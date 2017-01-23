@@ -7,6 +7,8 @@ class Card extends BaseModel {
     protected $primaryKey = 'cardID';
     public $incrementing = false;
 
+    protected $hidden = ['cardKey', 'ivrCardID', 'user_id', 'cardName', 'created_at', 'updated_at', 'cardAdded'];
+
     // validation rules
     public static $rules = array(
         'cardID' => 'required|string|max:32',
