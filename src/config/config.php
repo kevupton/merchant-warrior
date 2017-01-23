@@ -18,5 +18,8 @@ return array(
     'testing' => true,
 
     //Whether or not to automatically saved the data received (requires the tables to be created)
-    'save_data' => true
+    'save_data' => true,
+
+    // whether or not to save the authenticated user to the card object
+    'add_user_to_card' => true
 );
