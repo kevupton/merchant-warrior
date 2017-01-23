@@ -13,12 +13,12 @@ class Card extends BaseModel {
         'cardKey' => 'required|string|max:64',
         'ivrCardID' => 'required|string|max:32',
         'user_id' => 'integer|min:0',
-        'cardName' => 'required|string|max:128',
-        'cardExpiryMonth' => 'required|string|size:2',
-        'cardExpiryYear' => 'required|string|size:2',
-        'cardNumberFirst' => 'required|string|size:4',
-        'cardNumberLast' => 'required|string|size:4',
-        'cardAdded' => 'required|date',
+        'cardName' => 'string|max:128',
+        'cardExpiryMonth' => 'string|size:2',
+        'cardExpiryYear' => 'string|size:2',
+        'cardNumberFirst' => 'string|size:4',
+        'cardNumberLast' => 'string|size:4',
+        'cardAdded' => 'date',
     );
 
     protected $fillable = array(

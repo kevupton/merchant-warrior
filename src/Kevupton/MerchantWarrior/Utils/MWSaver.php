@@ -53,10 +53,10 @@ class MWSaver {
      * Changes the expiry date
      */
     private function _saveChangeExpiry() {
-        $card_info = (new CardRepository())->retrieveByID($this->sent['cardID']);
-        $card_info->cardExpiryMonth = $this->sent['cardExpiryMonth'];
-        $card_info->cardExpiryYear = $this->sent['cardExpiryYear'];
-        $card_info->save();
+        $card = (new CardRepository())->retrieveByID($this->sent['cardID']);
+        $card->cardExpiryMonth = $this->sent['cardExpiryMonth'];
+        $card->cardExpiryYear = $this->sent['cardExpiryYear'];
+        $card->save();
     }
 
     /**
