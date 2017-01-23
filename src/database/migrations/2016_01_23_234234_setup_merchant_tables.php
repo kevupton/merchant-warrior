@@ -16,19 +16,13 @@ class SetupMerchantTables extends Migration {
             $table->string('cardID', 32);
             $table->string('cardKey', 64);
             $table->string('ivrCardID', 32);
-            $table->timestamps();
-            $table->primary('cardID');
-        });
-
-        Schema::create($pre . 'card_info', function (Blueprint $table) use ($pre) {
-            $table->string('cardID', 32)->index();
-            $table->foreign('cardID')->references('cardID')->on($pre . 'cards')->onDelete('restrict')->onUpdate('cascade');
             $table->string('cardName', 128);
             $table->char('cardExpiryMonth', 2);
             $table->char('cardExpiryYear', 2);
             $table->char('cardNumberFirst', 4);
             $table->char('cardNumberLast', 4);
             $table->dateTime('cardAdded');
+            $table->unsignedInteger('user_id')->index()->nullable();
             $table->timestamps();
             $table->primary('cardID');
         });

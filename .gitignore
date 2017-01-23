@@ -3,6 +3,7 @@
 .env.php
 .env
 .idea
+vendor
 
 # =========================
 # Operating System Files

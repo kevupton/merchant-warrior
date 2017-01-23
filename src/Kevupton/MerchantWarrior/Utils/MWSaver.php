@@ -32,10 +32,13 @@ class MWSaver {
      * Method for procedure AddCard
      */
     private function _saveAddCard() {
+        $user_id = mw_conf('add_user_to_card', false) && \Auth::check() ? \Auth::id() : null;
+
         $this->result  = (new CardRepository)->createOrUpdate([
             'cardID' => (string) $this->xml->cardID,
             'cardKey' => (string) $this->xml->cardKey,
-            'ivrCardID' => (string) $this->xml->ivrCardID
+            'ivrCardID' => (string) $this->xml->ivrCardID,
+            'user_id' => $user_id
         ]);
     }
 
@@ -50,7 +53,7 @@ class MWSaver {
      * Changes the expiry date
      */
     private function _saveChangeExpiry() {
-        $card_info = (new CardInfoRepository())->retrieveByID($this->sent['cardID']);
+        $card_info = (new CardRepository())->retrieveByID($this->sent['cardID']);
         $card_info->cardExpiryMonth = $this->sent['cardExpiryMonth'];
         $card_info->cardExpiryYear = $this->sent['cardExpiryYear'];
         $card_info->save();
@@ -60,7 +63,7 @@ class MWSaver {
      * Saves the card info
      */
     private function _saveCardInfo() {
-        $this->result = (new CardInfoRepository())->createOrUpdate([
+        $this->result = (new CardRepository())->createOrUpdate([
             'cardID' => (string) $this->xml->cardID,
             'cardName' => (string) $this->xml->cardName,
             'cardExpiryMonth' => (string) $this->xml->cardExpiryMonth,

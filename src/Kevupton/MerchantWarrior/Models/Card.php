@@ -12,15 +12,22 @@ class Card extends BaseModel {
         'cardID' => 'required|string|max:32',
         'cardKey' => 'required|string|max:64',
         'ivrCardID' => 'required|string|max:32',
+        'user_id' => 'integer|min:0',
+        'cardName' => 'required|string|max:128',
+        'cardExpiryMonth' => 'required|string|size:2',
+        'cardExpiryYear' => 'required|string|size:2',
+        'cardNumberFirst' => 'required|string|size:4',
+        'cardNumberLast' => 'required|string|size:4',
+        'cardAdded' => 'required|date',
     );
 
     protected $fillable = array(
-        'cardID', 'cardKey', 'ivrCardID'
+        'cardID', 'cardKey', 'ivrCardID', 'cardName', 'cardExpiryMonth', 'cardAdded',
+        'cardExpiryYear', 'cardNumberFirst', 'cardNumberLast', 'user_id'
     );
 
     // relationships
     public static $relationsData = array(
         'payments' => array(self::HAS_MANY, Payment::class, 'cardID'),
-        'info' => array(self::HAS_ONE, CardInfo::class, 'cardID'),
     );
 }
