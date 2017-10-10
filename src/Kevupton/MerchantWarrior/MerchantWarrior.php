@@ -164,7 +164,8 @@ class MerchantWarrior {
     }
 
     public function processDCredit(array $data) {
-        return $this->sendRequest('processDCredit', $data, false);
+        $data['hash'] = $this->hashTransactionType($data['transactionAmount'], $data['transactionCurrency']);
+        return $this->sendRequest('processDCredit', $data, true);
     }
 
     public function queryDD(array $data) {

@@ -13,12 +13,8 @@ class MerchantWarriorServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->publishes([__DIR__.'/../../../config/config.php' => config_path(MERCHANT_WARRIOR_CONFIG . '.php')]);
-        $this->publishes([
-            __DIR__.'/../../../database/migrations/' => database_path('migrations')
-        ], 'migrations');
-//        $this->publishes([
-//            __DIR__.'/../../../../database/seeds/' => database_path('seeds')
-//        ], 'seeds');
+
+        $this->loadMigrationsFrom(__DIR__ . '/../../../database/migrations');
     }
 
     /**
@@ -28,6 +24,8 @@ class MerchantWarriorServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../../config/config.php', MERCHANT_WARRIOR_CONFIG
+        );
     }
 }

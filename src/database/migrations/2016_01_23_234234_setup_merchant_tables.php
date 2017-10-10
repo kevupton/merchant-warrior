@@ -31,7 +31,7 @@ class SetupMerchantTables extends Migration {
             $table->increments('id');
             $table->string('cardID', 32)->nullable()->index();
             $table->foreign('cardID')->references('cardID')->on($pre . 'cards')->onDelete('restrict')->onUpdate('cascade');
-            $table->double('transactionAmount', 12,2);
+            $table->decimal('transactionAmount', 12,2);
             $table->char('transactionCurrency', 3);
             $table->string('transactionProduct', 255);
             $table->string('transactionReferenceID', 16)->nullable();
