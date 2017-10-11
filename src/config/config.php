@@ -18,9 +18,9 @@ return array(
     'testing' =>  env('MERCHANT_WARRIOR_TESTING', false),
 
     //Whether or not to automatically saved the data received (requires the tables to be created)
-    'save_data' => env('MERCHANT_WARRIOR_SAVE_DATA', false),
+    'save_data' => env('MERCHANT_WARRIOR_SAVE_DATA', true),
 
     // whether or not to save the authenticated user to the card object
-    'add_user_to_card' => env('MERCHANT_WARRIOR_SAVE_USER', false)
+    'add_user_to_card' => env('MERCHANT_WARRIOR_SAVE_USER', true)
 
 );

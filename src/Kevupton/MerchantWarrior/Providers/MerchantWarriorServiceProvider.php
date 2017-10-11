@@ -1,7 +1,6 @@
 <?php namespace Kevupton\MerchantWarrior\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Kevupton\Ethereal\CustomValidator;
 
 class MerchantWarriorServiceProvider extends ServiceProvider {
 

@@ -1,35 +1,45 @@
 <?php namespace Kevupton\MerchantWarrior\Models;
 
-class Card extends BaseModel {
+class Card extends BaseModel
+{
     // table name
     protected $table = 'cards';
-    public $timestamps = true;
     protected $primaryKey = 'cardID';
     public $incrementing = false;
 
-    protected $hidden = ['cardKey', 'ivrCardID', 'user_id', 'cardName', 'created_at', 'updated_at', 'cardAdded'];
-
-    // validation rules
-    public static $rules = array(
-        'cardID' => 'required|string|max:32',
-        'cardKey' => 'required|string|max:64',
-        'ivrCardID' => 'required|string|max:32',
-        'user_id' => 'nullable|integer|min:0',
-        'cardName' => 'nullable|string|max:128',
-        'cardExpiryMonth' => 'nullable|string|size:2',
-        'cardExpiryYear' => 'nullable|string|size:2',
-        'cardNumberFirst' => 'nullable|string|size:4',
-        'cardNumberLast' => 'nullable|string|size:4',
-        'cardAdded' => 'nullable|date',
-    );
+    protected $hidden = ['cardKey', 'ivrCardID', 'user_id', 'cardNumber', 'created_at', 'updated_at'];
 
     protected $fillable = array(
-        'cardID', 'cardKey', 'ivrCardID', 'cardName', 'cardExpiryMonth', 'cardAdded',
+        'cardID', 'cardKey', 'ivrCardID', 'cardNumber', 'cardName', 'cardExpiryMonth', 'cardAdded',
         'cardExpiryYear', 'cardNumberFirst', 'cardNumberLast', 'user_id'
     );
 
-    // relationships
-    public static $relationsData = array(
-        'payments' => array(self::HAS_MANY, Payment::class, 'cardID'),
-    );
+    public function payments ()
+    {
+        return $this->hasMany(Payment::class, 'cardID');
+    }
+
+    public function getCardNumberAttribute ($value) {
+        return decrypt($value);
+    }
+
+    public function setCardNumberAttribute ($value) {
+        $this->attributes['cardNumber'] = encrypt($value);
+    }
+
+    public function getCardNumberFirstAttribute ($value) {
+        return decrypt($value);
+    }
+
+    public function setCardNumberFirstAttribute ($value) {
+        $this->attributes['cardNumberFirst'] = encrypt($value);
+    }
+
+    public function getCardNumberLastAttribute ($value) {
+        return decrypt($value);
+    }
+
+    public function setCardNumberLastAttribute ($value) {
+        $this->attributes['cardNumberLast'] = encrypt($value);
+    }
 }

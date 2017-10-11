@@ -1,9 +1,8 @@
 <?php namespace Kevupton\MerchantWarrior\Utils;
 
-use Kevupton\MerchantWarrior\Models\Log;
-use Kevupton\MerchantWarrior\Repositories\CardInfoRepository;
-use Kevupton\MerchantWarrior\Repositories\CardRepository;
-use Kevupton\MerchantWarrior\Repositories\PaymentRepository;
+use Kevupton\MerchantWarrior\Models\BaseModel;
+use Kevupton\MerchantWarrior\Models\Card;
+use Kevupton\MerchantWarrior\Models\Payment;
 
 class MWSaver {
 
@@ -34,10 +33,13 @@ class MWSaver {
     private function _saveAddCard() {
         $user_id = mw_conf('add_user_to_card', false) && \Auth::check() ? \Auth::id() : null;
 
-        $this->result  = (new CardRepository)->createOrUpdate([
+        $this->result  = Card::updateOrCreate([
+            'cardID' => (string) $this->xml->cardID
+        ],[
             'cardID' => (string) $this->xml->cardID,
             'cardKey' => (string) $this->xml->cardKey,
             'ivrCardID' => (string) $this->xml->ivrCardID,
+            'cardNumber' => (string) $this->xml->cardNumber,
             'user_id' => $user_id
         ]);
     }
@@ -46,25 +48,20 @@ class MWSaver {
      * Removes the card from the database.
      */
     private function _saveRemoveCard() {
-        (new CardRepository())->deleteCard($this->sent['cardID']);
-    }
-
-    /**
-     * Changes the expiry date
-     */
-    private function _saveChangeExpiry() {
-        $card = (new CardRepository())->retrieveByID($this->sent['cardID']);
-        $card->cardExpiryMonth = $this->sent['cardExpiryMonth'];
-        $card->cardExpiryYear = $this->sent['cardExpiryYear'];
-        $card->save();
+        /** @var BaseModel $card */
+        $card = Card::find($this->sent['cardID']);
+        if ($card) $card->delete();
     }
 
     /**
      * Saves the card info
      */
     private function _saveCardInfo() {
-        $this->result = (new CardRepository())->createOrUpdate([
-            'cardID' => (string) $this->xml->cardID,
+
+        /** @var Card $card */
+        $card = Card::find((string) $this->xml->cardID);
+
+        $this->result = $card->update([
             'cardName' => (string) $this->xml->cardName,
             'cardExpiryMonth' => (string) $this->xml->cardExpiryMonth,
             'cardExpiryYear' => (string) $this->xml->cardExpiryYear,
@@ -75,7 +72,7 @@ class MWSaver {
     }
 
     private function _saveProcessCard() {
-        $this->result = (new PaymentRepository())->create($this->sent);
+        $this->result = Payment::create($this->sent);
     }
 
 }

@@ -1,12 +1,12 @@
 <?php namespace Kevupton\MerchantWarrior\Utils;
 
-use Kevupton\Ethereal\Models\Ethereal;
+use Kevupton\MerchantWarrior\Models\BaseModel;
 
 class Response {
 
     /** @var \SimpleXMLElement */
     private $xml;
-    /** @var  Ethereal */
+    /** @var  BaseModel */
     private $result;
     private $sent;
 
@@ -20,7 +20,7 @@ class Response {
     /**
      * Gets the result model from creation
      *
-     * @return Ethereal
+     * @return BaseModel
      */
     public function result() {
         return $this->result;

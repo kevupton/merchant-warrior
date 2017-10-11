@@ -3,7 +3,6 @@
 class Log extends BaseModel {
     // table name
     protected $table = 'log';
-    public $timestamps = true;
 
     const DO_NOT_LOG = [
         'cardNumber',

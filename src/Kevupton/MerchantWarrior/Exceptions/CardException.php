@@ -1,5 +1,4 @@
 <?php namespace Kevupton\MerchantWarrior\Exceptions;
 
-use Kevupton\Ethereal\Exceptions\EtherealException;
 
-class CardException extends EtherealException {}
+class CardException extends \Exception {}

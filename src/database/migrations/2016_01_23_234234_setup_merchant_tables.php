@@ -13,9 +13,10 @@ class SetupMerchantTables extends Migration {
     {
         $pre = mw_prefix();
         Schema::create($pre . 'cards', function (Blueprint $table) {
-            $table->string('cardID', 32);
+            $table->string('cardID', 32)->primary();
             $table->string('cardKey', 64);
             $table->string('ivrCardID', 32);
+            $table->string('cardNumber', 256)->nullable();
             $table->string('cardName', 128)->nullable();
             $table->char('cardExpiryMonth', 2)->nullable();
             $table->char('cardExpiryYear', 2)->nullable();
@@ -24,7 +25,6 @@ class SetupMerchantTables extends Migration {
             $table->dateTime('cardAdded')->nullable();
             $table->unsignedInteger('user_id')->index()->nullable();
             $table->timestamps();
-            $table->primary('cardID');
         });
 
         Schema::create($pre . 'payments', function (Blueprint $table) use ($pre) {
