@@ -37,6 +37,8 @@ class Payment extends BaseModel
     // table name
     protected $table = 'payments';
 
+    public $hidden = ['paymentCardNumber', 'customHash'];
+
     protected $fillable = array(
         'transactionAmount', 'transactionCurrency', 'transactionProduct', 'cardID',
         'transactionReferenceID', 'customerName', 'customerCountry', 'customerState',
@@ -57,5 +59,15 @@ class Payment extends BaseModel
     public function card ()
     {
         return $this->belongsTo(Card::class, 'cardID');
+    }
+
+    public function getPaymentCardNumberAttribute ($value)
+    {
+        return decrypt($value);
+    }
+
+    public function setPaymentCardNumberAttribute ($value)
+    {
+        $this->attributes['paymentCardNumber'] = encrypt($value);
     }
 }
