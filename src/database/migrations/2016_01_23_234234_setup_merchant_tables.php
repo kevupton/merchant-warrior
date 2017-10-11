@@ -29,6 +29,16 @@ class SetupMerchantTables extends Migration {
 
         Schema::create($pre . 'payments', function (Blueprint $table) use ($pre) {
             $table->increments('id');
+            $table->tinyInteger('responseCode');
+            $table->string('responseMessage', 255);
+            $table->string('transactionID', 255);
+            $table->string('authCode', 32);
+            $table->string('receiptNo', 32);
+            $table->string('authMessage', 255);
+            $table->string('authResponseCode', 16);
+            $table->date('authSettledDate');
+            $table->string('paymentCardNumber', 255);
+            $table->string('customHash', 255);
             $table->string('cardID', 32)->nullable()->index();
             $table->foreign('cardID')->references('cardID')->on($pre . 'cards')->onDelete('restrict')->onUpdate('cascade');
             $table->decimal('transactionAmount', 12,2);

@@ -21,8 +21,19 @@
  * @property mixed custom1
  * @property mixed custom2
  * @property mixed custom3
+ * @property mixed responseCode
+ * @property mixed responseMessage
+ * @property mixed transactionID
+ * @property mixed authCode
+ * @property mixed receiptNo
+ * @property mixed authMessage
+ * @property mixed authResponseCode
+ * @property mixed authSettledDate
+ * @property mixed paymentCardNumber
+ * @property mixed customHash
  */
-class Payment extends BaseModel {
+class Payment extends BaseModel
+{
     // table name
     protected $table = 'payments';
 
@@ -30,10 +41,21 @@ class Payment extends BaseModel {
         'transactionAmount', 'transactionCurrency', 'transactionProduct', 'cardID',
         'transactionReferenceID', 'customerName', 'customerCountry', 'customerState',
         'customerCity', 'customerAddress', 'customerPostCode', 'customerPhone',
-        'customerEmail', 'customerIP', 'custom1', 'custom2', 'custom3'
+        'customerEmail', 'customerIP', 'custom1', 'custom2', 'custom3',
+        'responseCode',
+        'responseMessage',
+        'transactionID',
+        'authCode',
+        'receiptNo',
+        'authMessage',
+        'authResponseCode',
+        'authSettledDate',
+        'paymentCardNumber',
+        'customHash',
     );
 
-    public function card () {
+    public function card ()
+    {
         return $this->belongsTo(Card::class, 'cardID');
     }
 }
