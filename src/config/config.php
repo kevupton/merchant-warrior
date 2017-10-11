@@ -6,7 +6,7 @@ return array(
     'database_prefix' => env('MERCHANT_WARRIOR_DB_PREFIX', 'mw_'),
 
     //The Merchant UUID found in your Direct API Merchant Warrior Account
-    'merchant_uuid' => env('MERCHANT_WARRIOR_UUI'),
+    'merchant_uuid' => env('MERCHANT_WARRIOR_UUID'),
 
     //API Key, your merchant warrior API Key found in your Direct API Merchant Warrior Account
     'api_key' => env('MERCHANT_WARRIOR_API_KEY'),
