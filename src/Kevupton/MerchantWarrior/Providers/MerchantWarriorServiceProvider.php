@@ -22,7 +22,7 @@ class MerchantWarriorServiceProvider extends ServiceProvider
             return new MerchantWarrior();
         });
 
-        class_alias('MerchantWarrior', \Kevupton\MerchantWarrior\Facades\MerchantWarrior::class);
+        class_alias(\Kevupton\MerchantWarrior\Facades\MerchantWarrior::class, 'MerchantWarrior');
     }
 
     /**
