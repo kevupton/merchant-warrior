@@ -7,7 +7,7 @@ class Card extends BaseModel
     protected $primaryKey = 'cardID';
     public $incrementing = false;
 
-    protected $hidden = ['cardKey', 'ivrCardID', 'user_id', 'cardNumber', 'created_at', 'updated_at'];
+    protected $hidden = ['cardKey', 'ivrCardID', 'user_id', 'cardNumber', 'created_at', 'updated_at', 'cardAdded', 'cardName'];
 
     protected $fillable = array(
         'cardID', 'cardKey', 'ivrCardID', 'cardNumber', 'cardName', 'cardExpiryMonth', 'cardAdded',

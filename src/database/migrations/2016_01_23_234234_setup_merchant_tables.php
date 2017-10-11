@@ -16,12 +16,12 @@ class SetupMerchantTables extends Migration {
             $table->string('cardID', 32)->primary();
             $table->string('cardKey', 64);
             $table->string('ivrCardID', 32);
-            $table->string('cardNumber', 256)->nullable();
+            $table->string('cardNumber', 512)->nullable();
             $table->string('cardName', 128)->nullable();
             $table->char('cardExpiryMonth', 2)->nullable();
             $table->char('cardExpiryYear', 2)->nullable();
-            $table->char('cardNumberFirst', 4)->nullable();
-            $table->char('cardNumberLast', 4)->nullable();
+            $table->char('cardNumberFirst', 512)->nullable();
+            $table->char('cardNumberLast', 512)->nullable();
             $table->dateTime('cardAdded')->nullable();
             $table->unsignedInteger('user_id')->index()->nullable();
             $table->timestamps();
