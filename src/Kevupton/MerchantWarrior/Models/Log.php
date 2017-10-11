@@ -1,5 +1,11 @@
 <?php namespace Kevupton\MerchantWarrior\Models;
 
+/**
+ * Class Log
+ * @package Kevupton\MerchantWarrior\Models
+ * @property mixed content
+ * @property mixed sent
+ */
 class Log extends BaseModel {
     // table name
     protected $table = 'log';

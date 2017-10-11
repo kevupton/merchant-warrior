@@ -1,5 +1,20 @@
 <?php namespace Kevupton\MerchantWarrior\Models;
 
+/**
+ * Class Card
+ * @package Kevupton\MerchantWarrior\Models
+ * @property mixed cardID
+ * @property mixed cardKey
+ * @property mixed ivrCardID
+ * @property mixed cardNumber
+ * @property mixed cardName
+ * @property mixed cardExpiryMonth
+ * @property mixed cardAdded
+ * @property mixed cardExpiryYear
+ * @property mixed cardNumberFirst
+ * @property mixed cardNumberLast
+ * @property mixed user_id
+ */
 class Card extends BaseModel
 {
     // table name
