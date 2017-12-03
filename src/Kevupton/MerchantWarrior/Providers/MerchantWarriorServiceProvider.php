@@ -1,6 +1,7 @@
 <?php namespace Kevupton\MerchantWarrior\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Kevupton\LaravelPackageServiceProvider\ServiceProvider;
+use Kevupton\MerchantWarrior\Facades\MerchantWarrior as MerchantWarriorFacade;
 use Kevupton\MerchantWarrior\MerchantWarrior;
 
 class MerchantWarriorServiceProvider extends ServiceProvider
@@ -14,15 +15,9 @@ class MerchantWarriorServiceProvider extends ServiceProvider
      */
     public function boot ()
     {
-        $this->publishes([__DIR__ . '/../../../config/config.php' => config_path(MERCHANT_WARRIOR_CONFIG . '.php')]);
+        $this->registerConfig('/../../../config/config.php', MERCHANT_WARRIOR_CONFIG . '.php');
 
         $this->loadMigrationsFrom(__DIR__ . '/../../../database/migrations');
-
-        $this->app->singleton(self::SINGLETON, function () {
-            return new MerchantWarrior();
-        });
-
-        class_alias(\Kevupton\MerchantWarrior\Facades\MerchantWarrior::class, 'MerchantWarrior');
     }
 
     /**
@@ -32,6 +27,12 @@ class MerchantWarriorServiceProvider extends ServiceProvider
      */
     public function register ()
     {
+        $this->app->singleton(self::SINGLETON, function () {
+            return new MerchantWarrior();
+        });
+
+        $this->registerAlias(MerchantWarriorFacade::class, 'MerchantWarrior');
+
         $this->mergeConfigFrom(
             __DIR__ . '/../../../config/config.php', MERCHANT_WARRIOR_CONFIG
         );
