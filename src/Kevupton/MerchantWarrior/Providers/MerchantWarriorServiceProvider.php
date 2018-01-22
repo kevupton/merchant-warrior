@@ -15,7 +15,7 @@ class MerchantWarriorServiceProvider extends ServiceProvider
      */
     public function boot ()
     {
-        $this->registerConfig('/../../../config/config.php', MERCHANT_WARRIOR_CONFIG . '.php');
+        $this->registerConfig(__DIR__ . '/../../../config/config.php', MERCHANT_WARRIOR_CONFIG . '.php');
 
         $this->loadMigrationsFrom(__DIR__ . '/../../../database/migrations');
     }
